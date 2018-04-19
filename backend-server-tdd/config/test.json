@@ -1,0 +1,4 @@
+{
+    "DBConfig": "mongodb://root:toor@ds163918.mlab.com:63918/hospitaldb",
+    "SEED": "123456"
+}
