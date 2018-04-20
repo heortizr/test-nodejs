@@ -1,14 +1,14 @@
-var express = require('express');
-var User = require('../models/user');
-var bcrypt = require('bcryptjs');
-var mdAuth = require('../middlewares/auth');
+let express = require('express');
+let User = require('../models/user');
+let bcrypt = require('bcryptjs');
+let mdAuth = require('../middlewares/auth');
 
-var app = express();
+let app = express();
 
 
 app.get('/', (req, res) => {
 
-    var from = req.query.desde || 0;
+    let from = req.query.desde || 0;
     from = Number(from);
 
     User.find({}, 'name email img role google')
@@ -33,10 +33,40 @@ app.get('/', (req, res) => {
         });
 });
 
+app.get('/:id', (req, res) => {
+
+    let id = req.params.id;
+
+    User.findById(id, 'name email img role google')
+        .exec((err, user) => {
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    message: 'Error',
+                    errs: err
+                });
+            }
+
+            if (!user) {
+                return res.status(400).json({
+                    ok: false,
+                    message: 'Error',
+                    errs: { message: 'Error' }
+                });
+            }
+
+            res.status(200).json({
+                ok: true,
+                payload: user,
+            });
+        });
+});
+
 app.put('/:id', [mdAuth.verifyToken, mdAuth.verifyUserRoleOnSelfUser], (req, res) => {
 
-    var id = req.params.id;
-    var body = req.body;
+    let id = req.params.id;
+    let body = req.body;
 
     User.findById(id, (err, user) => {
 
@@ -84,9 +114,9 @@ app.put('/:id', [mdAuth.verifyToken, mdAuth.verifyUserRoleOnSelfUser], (req, res
 
 app.post('/', (req, res) => {
 
-    var body = req.body;
+    let body = req.body;
 
-    var user = new User({
+    let user = new User({
         name: body.name,
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
@@ -96,7 +126,7 @@ app.post('/', (req, res) => {
 
     user.save((err, userSaved) => {
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 message: 'Error',
                 errs: err
@@ -115,7 +145,7 @@ app.post('/', (req, res) => {
 
 app.delete('/:id', [mdAuth.verifyToken, mdAuth.verifyAdminRole], (req, res) => {
 
-    var id = req.params.id;
+    let id = req.params.id;
 
     User.findByIdAndRemove(id, (err, userDeleted) => {
 

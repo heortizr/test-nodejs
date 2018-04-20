@@ -29,8 +29,10 @@ app.use((req, res, next) => {
 
 // body parser
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: 'application/json'}));
 
 // db connection
 mongoose.connection.openUri(config.DBConfig, (err, res) => {
