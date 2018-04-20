@@ -30,7 +30,7 @@ app.post('/google', (req, res) => {
             //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
         });
         const payload = ticket.getPayload();
-        const userid = payload['sub'];
+        // const userid = payload['sub'];
         // If request specified a G Suite domain:
         //const domain = payload['hd'];
 
@@ -179,7 +179,7 @@ function createToken(usuario) {
     usuario.password = "*****";
 
     // el token debe expirar en 4 horas 
-    return token = jwt.sign({ usuario: usuario },
+    return jwt.sign({ usuario: usuario },
         SEED, { expiresIn: 14400 }
     );
 

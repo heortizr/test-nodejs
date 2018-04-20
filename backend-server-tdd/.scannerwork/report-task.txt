@@ -1,0 +1,6 @@
+projectKey=sonar-js
+serverUrl=http://portal.gyt.com.gt/gyt-sonarqube
+serverVersion=6.7.3.38370
+dashboardUrl=http://portal.gyt.com.gt/gyt-sonarqube/dashboard/index/sonar-js
+ceTaskId=AWLj9f1hO9eQX1eynVSt
+ceTaskUrl=http://portal.gyt.com.gt/gyt-sonarqube/api/ce/task?id=AWLj9f1hO9eQX1eynVSt
