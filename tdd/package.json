@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "istanbul": "^0.4.5",
+    "nock": "^9.2.5",
+    "sinon": "^4.5.0"
+  },
+  "dependencies": {
+    "request": "^2.85.0"
+  }
+}
