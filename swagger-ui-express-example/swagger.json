@@ -1,0 +1,192 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API Docs",
+    "description": "API for basic CRUDs an hospital",
+    "termsOfService": "http://segurosgyt.com.gt",
+    "contact": {
+      "name": "Hugo Ortiz",
+      "url": "http://simple.api/contact",
+      "email": "hortiz@gyt.com.gt"
+    }
+  },
+  "schemes": [
+    "http"
+  ],
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "paths": {
+    "/user": {
+      "get": {
+        "summary": "GET all users",
+        "description": "GET all users",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pageSize"
+          },
+          {
+            "$ref": "#/parameters/pageNumber"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Persons"
+            }
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a user",
+        "description": "Create a user",
+        "parameters": [
+          {
+            "name": "person",
+            "in": "body",
+            "description": "The user to create",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User successfully created"
+          },
+          "400": {
+            "description": "User cloundn't have been created"
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/id"
+        }
+      ],
+      "get": {
+        "summary": "GET a person's friends",
+        "description": "GET a list containing all friends. The list support paging",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          },
+          "404": {
+            "description": "The user does not exists"
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    },
+    "/user/{id}/friends": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/id"
+        }
+      ],
+      "get": {
+        "summary": "GET unique user",
+        "description": "GET unique user",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pageSize"
+          },
+          {
+            "$ref": "#/parameters/pageNumber"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A person's friends list",
+            "schema": {
+              "$ref": "#/definitions/Persons"
+            }
+          },
+          "404": {
+            "description": "The user does not exists"
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Person": {
+      "required": [
+        "username"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "Persons": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Person"
+      }
+    },
+    "Error": {
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "responses": {
+    "Standard500ErrorResponse": {
+      "description": "An unexpected error ocurred",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    }
+  },
+  "parameters": {
+    "id": {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "description": "The person's ID",
+      "type": "string"
+    },
+    "pageSize": {
+      "name": "pageSize",
+      "in": "query",
+      "description": "Number of person returned",
+      "type": "number"
+    },
+    "pageNumber": {
+      "name": "pageNumber",
+      "in": "query",
+      "description": "Pege Number",
+      "type": "integer"
+    }
+  }
+}

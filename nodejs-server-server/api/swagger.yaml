@@ -1,0 +1,168 @@
+---
+swagger: "2.0"
+info:
+  description: "API for basic CRUDs an hospital"
+  version: "1.0.0"
+  title: "API Docs"
+  termsOfService: "http://segurosgyt.com.gt"
+  contact:
+    name: "Hugo Ortiz"
+    url: "http://simple.api/contact"
+    email: "hortiz@gyt.com.gt"
+host: "localhost:3000"
+basePath: "/api"
+schemes:
+- "http"
+paths:
+  /user:
+    get:
+      summary: "GET all users"
+      description: "GET all users"
+      operationId: "userGET"
+      parameters:
+      - name: "pageSize"
+        in: "query"
+        description: "Number of person returned"
+        required: false
+        type: "number"
+      - name: "pageNumber"
+        in: "query"
+        description: "Pege Number"
+        required: false
+        type: "integer"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Persons"
+        500:
+          description: "An unexpected error ocurred"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Default"
+    post:
+      summary: "Create a user"
+      description: "Create a user"
+      operationId: "userPOST"
+      parameters:
+      - in: "body"
+        name: "person"
+        description: "The user to create"
+        required: false
+        schema:
+          $ref: "#/definitions/Person"
+      responses:
+        204:
+          description: "User successfully created"
+        400:
+          description: "User cloundn't have been created"
+        500:
+          description: "An unexpected error ocurred"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Default"
+  /user/{id}:
+    get:
+      summary: "GET a person's friends"
+      description: "GET a list containing all friends. The list support paging"
+      operationId: "userIdGET"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The person's ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Person"
+        404:
+          description: "The user does not exists"
+        500:
+          description: "An unexpected error ocurred"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Default"
+  /user/{id}/friends:
+    get:
+      summary: "GET unique user"
+      description: "GET unique user"
+      operationId: "userIdFriendsGET"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The person's ID"
+        required: true
+        type: "string"
+      - name: "pageSize"
+        in: "query"
+        description: "Number of person returned"
+        required: false
+        type: "number"
+      - name: "pageNumber"
+        in: "query"
+        description: "Pege Number"
+        required: false
+        type: "integer"
+      responses:
+        200:
+          description: "A person's friends list"
+          schema:
+            $ref: "#/definitions/Persons"
+        404:
+          description: "The user does not exists"
+        500:
+          description: "An unexpected error ocurred"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Default"
+definitions:
+  Person:
+    required:
+    - "username"
+    properties:
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      username:
+        type: "string"
+    example:
+      firstName: "firstName"
+      lastName: "lastName"
+      username: "username"
+  Persons:
+    type: "array"
+    items:
+      $ref: "#/definitions/Person"
+  Error:
+    properties:
+      code:
+        type: "string"
+      message:
+        type: "string"
+parameters:
+  id:
+    name: "id"
+    in: "path"
+    description: "The person's ID"
+    required: true
+    type: "string"
+  pageSize:
+    name: "pageSize"
+    in: "query"
+    description: "Number of person returned"
+    required: false
+    type: "number"
+  pageNumber:
+    name: "pageNumber"
+    in: "query"
+    description: "Pege Number"
+    required: false
+    type: "integer"
+responses:
+  Standard500ErrorResponse:
+    description: "An unexpected error ocurred"
+    schema:
+      $ref: "#/definitions/Error"
